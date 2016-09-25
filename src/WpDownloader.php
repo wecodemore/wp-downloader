@@ -19,7 +19,6 @@ use Composer\Package\Link;
 use Composer\Plugin\PluginInterface;
 use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
-use Composer\Semver\VersionParser;
 use Composer\Util\Filesystem;
 use Composer\Util\RemoteFilesystem;
 
@@ -50,7 +49,6 @@ class WpDownloader implements PluginInterface, EventSubscriberInterface
 
     const RELEASES_URL = 'https://api.wordpress.org/core/version-check/1.7/';
     const DOWNLOADS_BASE_URL = 'https://downloads.wordpress.org/release/wordpress-';
-    const MIN_WP = '3.7.16';
 
     /**
      * @var array
@@ -76,11 +74,6 @@ class WpDownloader implements PluginInterface, EventSubscriberInterface
      * @var \Composer\Util\Filesystem
      */
     private $filesystem;
-
-    /**
-     * @var \Composer\Semver\VersionParser
-     */
-    private $versionParser;
 
     /**
      * @var bool
@@ -113,7 +106,6 @@ class WpDownloader implements PluginInterface, EventSubscriberInterface
         $this->composer = $composer;
         $this->filesystem = new Filesystem();
         $this->remoteFilesystem = new RemoteFilesystem($io, $composer->getConfig());
-        $this->versionParser = new VersionParser();
         $this->io = $io;
 
         $extra = (array)$composer->getPackage()->getExtra();
@@ -133,7 +125,7 @@ class WpDownloader implements PluginInterface, EventSubscriberInterface
     /**
      * This is triggered before _each_ package is installed.
      *
-     * When the package is a composer plugin, it does nothing. Since plugins are always all placed
+     * When the package is a Composer plugin, it does nothing. Since plugins are always all placed
      * on top of the dependencies stack doing this we ensure that the login in this method runs
      * when all the plugins are installed activated and very likely all the custom installers
      * are installed.

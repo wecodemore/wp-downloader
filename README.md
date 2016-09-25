@@ -8,12 +8,12 @@ edge case: install WordPress plugins and themes, with Composer, _inside_ WordPre
 
 # Why?
 
-By using Composer to manage both WordPress core and plugins and themes and at same to time tell Composer
-to put  plugins and themes _inside_ WordPress default `/wp-content` folder is just **not** possible 
+By using Composer to manage both WordPress core and plugins/themes and at same time to tell Composer
+to put plugins and themes _inside_ WordPress default `/wp-content` folder is just **not** possible 
 without issues.
 
 Because, in short, every time WordPress is installed or updated, the _whole_ WordPress folder
- (so including `/wp-content` dir) is deleted the and so plugins and themes packages inside it are lost.
+ (so including `/wp-content` dir) is deleted and so plugins and themes packages inside it are lost.
 
 I have explored different ways to solve this issue, but it seems that the most simple way is just to
 avoid to treat WordPress as a regular Composer package, because - guess what - it is *not* a 
@@ -167,8 +167,7 @@ Usage of this plugin is suggested only when plugins and themes really need to be
 Main plugin gotchas are:
  
 - Downloaded WordPress zips does not go into Composer cache, so it needs to be downloaded from the repo
-  anytime is needed. If more websites in the same server (or even locally) needs exact same version
-  of WP, the plugin will download it every time.
+  anytime is needed.
 - Not being a Composer package, WordPress version is not written into the `composer.lock` file.
   So the only way to do ensure exact same WP version among servers is to use an exact version requirement.
 - This package does not work with trunk or WordPress development versions.
