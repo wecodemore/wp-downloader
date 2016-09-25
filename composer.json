@@ -1,0 +1,29 @@
+{
+  "name":              "wecodemore/wp-downloader",
+  "description":       "A Composer plugin that downloads WordPress releases zip from official repo.",
+  "type":              "composer-plugin",
+  "license":           "MIT",
+  "authors":           [
+    {
+      "name":  "Giuseppe Mazzapica",
+      "email": "giuseppe.mazzapica@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require":           {
+    "php":                 ">=5.4",
+    "composer-plugin-api": "^1.1"
+  },
+  "provide": {
+    "johnpbloch/wordpress": "*",
+    "wordpress/wordpress": "*"
+  },
+  "autoload":          {
+    "classmap": [
+      "src/"
+    ]
+  },
+  "extra":             {
+    "class": "WCM\\WpDownloader\\WpDownloader"
+  }
+}
