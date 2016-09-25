@@ -38,7 +38,7 @@ of choice.
 When Composer is ran to update WordPress, old installation files are deleted, but `/wp-content` dir
 and `wp-config.php` (if found in WP root folder) are not touched.
 
-If Composer is setup to place plugins and themes inside `/wp-content`, they will be updated, when needed,
+If Composer is setup to place plugins and themes inside `/wp-content`, they will be updated when needed,
 by Composer.
 
 --------
@@ -55,7 +55,7 @@ There are few optional configurations, explained below.
 
 # Configuration
 
-The plugin support a `wp-downloader` object in `composer.json` (to be placed inside `extra` object
+The plugin supports a `wp-downloader` object in `composer.json` (to be placed inside `extra` object
 in root package) that allows to configure:
 
 - the WordPress target path
@@ -131,16 +131,16 @@ wp-downloader will read the version of `johnpbloch/wordpress` and will download 
 with the requirements of that package (in example above the version 4.6 or higher).
 
 This works only if a WordPress core package is required in the **root** `composer.json`: core packages 
-required as secondary dependencies will not be read, and **if no version is provided** neither by package 
-nor via `wp-downloader` object, **the latest WordPress version will be downloaded**.
+required as secondary dependencies will not be read, and **if no version is provided** (neither by package 
+nor via `wp-downloader` object) **the latest WordPress version will be downloaded**.
 
-(Also note that using example above the WP installation folder will be `public/wp`, being it read from
-the `wordpress-install-dir` setting).
+Also note that using example above the WP installation folder will be `public/wp`, being it read from
+the `wordpress-install-dir` setting.
 
 **Please note**: using a `composer.json` like the one right above will **not** install WordPress
 from the required package (`johnpbloch/wordpress`).
 
-In fact, wp-downloader prevents packages of type `wordpress-core` to be installed by Composer, or 
+In fact, **wp-downloader prevents packages of type `wordpress-core` to be installed by Composer**, or 
 the unique reason to exists of this plugin would be defeated.
 
 
@@ -172,7 +172,7 @@ Main plugin gotchas are:
 - Not being a Composer package, WordPress version is not written into the `composer.lock` file.
   So the only way to do ensure exact same WP version among servers is to use an exact version requirement.
 - This package does not work with trunk or WordPress development versions.
-  If you need to develop for WordPress or test things against trunk, and you want to use Composer... 
+  If you need to develop for WordPress core or test things against trunk, and you want to use Composer... 
   then use Composer, and not this plugin, to download WordPress.
   
 --------
@@ -180,37 +180,45 @@ Main plugin gotchas are:
 # FAQ
 
 > How do I tell Composer to place my plugin / themes inside WordPress `/wp-content` folder?
+
 - That's something that does not depends on this plugin. Change the path of specific plugin themes
   is something provided by an official Composer plugin named "Composer installers".
   It can be installed by requiring `"composer/installers"` and it needs an `"installer-paths"`
   setting in `composer.json`. See [plugin docs](http://composer.github.io/installers/)
   
 > I required this plugin, now the website show just WSOD!
-- By default this plugin download the "no content" version of WordPress archive. It means that no
+
+- By default this plugin downloads the "no content" version of WordPress archive. It means that no
   default themes are downloaded. If you use a default theme (or maybe a child theme of one of them), 
   you won't be able to see the frontend of the website.
   See [**"No-content setting"**](#no-content-setting) section above.
 
 > Do you wish to support [_insert crazy edge case here_]?
+
 - No, I don't.
 
 > Do you wish to implement [_feature here_]?
+
 - Probably no.
 
 > I found a bug, can you fix it?
+
 - I can, but no warranty on when. Consider that contributions are welcome and PR open.
 
 > I used a fixed required version for WP and it does not work. Why?
+
 - Check that the URL `https://downloads.wordpress.org/release/wordpress-{$version}-no-content.zip` is there.
   If it is not, but `https://downloads.wordpress.org/release/wordpress-{$version}.zip` is, then set
   `no-content` setting to false.
   
 > The package [_package here_] I am using requires WordPress package, but the plugin does not
   auto-discover which WP version to download, and always download latest version.
+  
 - This plugin auto-discovers WordPress version from required WordPress packages that are required only 
   from **root** `composer.json`. If WordPress is required from a package you require, that won't work.
 
 > Does this work with [WP Starter](https://github.com/wecodemore/wpstarter)?
+
 - Yes, it does.
 
 --------
