@@ -55,9 +55,10 @@ final class Unzipper extends ZipDownloader
      *
      * @param PackageInterface $package
      * @param string $path
+     * @param bool $output
      * @return string|void
      */
-    public function download(PackageInterface $package, $path)
+    public function download(PackageInterface $package, $path, $output = true)
     {
     }
 
@@ -71,11 +72,9 @@ final class Unzipper extends ZipDownloader
      */
     private function checkLibrary($zipPath)
     {
-        if (!isset(parent::$hasSystemUnzip)) {
-            parent::$hasSystemUnzip = (new ExecutableFinder())->find('unzip');
-        }
+        $hasSystemUnzip = (new ExecutableFinder())->find('unzip');
 
-        if (!parent::$hasSystemUnzip && !class_exists('ZipArchive')) {
+        if (!$hasSystemUnzip && !class_exists('ZipArchive')) {
             $name = basename($zipPath);
             throw new \RuntimeException(
                 "Can't unzip '{$name}' because your system does not support unzip."
