@@ -50,6 +50,15 @@ class WpDownloader implements PluginInterface, EventSubscriberInterface
     const RELEASES_URL = 'https://api.wordpress.org/core/version-check/1.7/';
     const DOWNLOADS_BASE_URL = 'https://downloads.wordpress.org/release/wordpress-';
 
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+    }
+
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
+    }
+
+
     /**
      * @var array
      */

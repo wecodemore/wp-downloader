@@ -11,8 +11,8 @@
   ],
   "minimum-stability": "stable",
   "require":           {
-    "php":                 ">=5.4",
-    "composer-plugin-api": "^1.1"
+    "php":                 ">=8.0",
+    "composer-plugin-api": "^2.0"
   },
   "autoload":          {
     "classmap": [
@@ -21,5 +21,8 @@
   },
   "extra":             {
     "class": "WCM\\WpDownloader\\WpDownloader"
+  },
+  "require-dev": {
+    "composer/composer": "^2.0"
   }
 }

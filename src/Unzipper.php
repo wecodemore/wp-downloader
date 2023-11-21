@@ -14,6 +14,8 @@ use Composer\Config;
 use Composer\Downloader\ZipDownloader;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
+use React\Promise\Promise;
+use React\Promise\PromiseInterface;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
@@ -51,15 +53,17 @@ final class Unzipper extends ZipDownloader
     }
 
     /**
-     * This this just un unzipper, we don't download anything.
+     * This is just an unzipper, we don't download anything.
      *
      * @param PackageInterface $package
      * @param string $path
+     * @param PackageInterface|null $prevPackage
      * @param bool $output
-     * @return string|void
+     * @return PromiseInterface
      */
-    public function download(PackageInterface $package, $path, $output = true)
+    public function download(PackageInterface $package, string $path, ?PackageInterface $prevPackage = null, bool $output = true): PromiseInterface
     {
+        return new Promise(fn() => null);
     }
 
     /**
