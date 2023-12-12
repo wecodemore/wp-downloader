@@ -1,28 +1,39 @@
 {
-  "name":              "wecodemore/wp-downloader",
-  "description":       "A Composer plugin that downloads WordPress releases zip from official repo.",
-  "type":              "composer-plugin",
-  "license":           "MIT",
-  "authors":           [
+  "name": "wecodemore/wp-downloader",
+  "description": "A Composer plugin that downloads WordPress releases zip from official repo.",
+  "type": "composer-plugin",
+  "license": "MIT",
+  "authors": [
     {
-      "name":  "Giuseppe Mazzapica",
+      "name": "Giuseppe Mazzapica",
       "email": "giuseppe.mazzapica@gmail.com"
     }
   ],
   "minimum-stability": "stable",
-  "require":           {
-    "php":                 ">=8.0",
+  "require": {
+    "php": ">=8.0",
     "composer-plugin-api": "^2.0"
   },
-  "autoload":          {
-    "classmap": [
-      "src/"
-    ]
+  "autoload": {
+    "psr-4": {
+      "WCM\\WpDownloader\\": "src/"
+    }
   },
-  "extra":             {
+  "autoload-dev": {
+    "psr-4": {
+      "WCM\\WpDownloader\\Tests\\Unit\\": "tests/Unit/"
+    }
+  },
+  "extra": {
     "class": "WCM\\WpDownloader\\WpDownloader"
   },
   "require-dev": {
+    "brain/monkey": "^2.6",
+    "phpunit/phpunit": "^9.6",
     "composer/composer": "^2.0"
+  },
+  "scripts": {
+    "tests": "@php ./vendor/phpunit/phpunit/phpunit --coverage-text",
+    "tests:no-cov": "@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
   }
 }
