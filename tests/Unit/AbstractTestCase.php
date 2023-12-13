@@ -15,7 +15,7 @@ namespace WCM\WpDownloader\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
+use Brain\Monkey;
 abstract class AbstractTestCase extends TestCase
 {
     use MockeryPHPUnitIntegration;
@@ -40,5 +40,6 @@ abstract class AbstractTestCase extends TestCase
     {
 //        Monkey\tearDown();
         parent::tearDown();
+
     }
 }
