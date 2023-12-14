@@ -50,6 +50,15 @@ class WpDownloader implements PluginInterface, EventSubscriberInterface
     const RELEASES_URL = 'https://api.wordpress.org/core/version-check/1.7/';
     const DOWNLOADS_BASE_URL = 'https://downloads.wordpress.org/release/wordpress-';
 
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+    }
+
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
+    }
+
+
     /**
      * @var array
      */
@@ -103,23 +112,43 @@ class WpDownloader implements PluginInterface, EventSubscriberInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
+        $this->filesystem = $this->prepareFilesystem();
+        $this->remoteFilesystem = $this->prepareRemoteSystem($composer, $io);
         $this->composer = $composer;
-        $this->filesystem = new Filesystem();
-        $this->remoteFilesystem = new RemoteFilesystem($io, $composer->getConfig());
         $this->io = $io;
+        $this->config = $this->prepareConfig($composer);
+    }
 
+    protected function prepareFilesystem(): Filesystem
+    {
+        return new Filesystem();
+    }
+
+    protected function prepareRemoteSystem(Composer $composer, IOInterface $io): RemoteFilesystem
+    {
+        return new RemoteFilesystem($io, $composer->getConfig());
+    }
+
+    protected function prepareConfig(Composer $composer): array
+    {
         $extra = (array)$composer->getPackage()->getExtra();
-        $dirs = empty($extra['wordpress-install-dir']) ? [] : $extra['wordpress-install-dir'];
-        is_string($dirs) and $dirs = [$dirs];
-        is_array($dirs) and $dirs = array_filter(array_filter($dirs, 'is_string'));
+        $dirs = $this->wpInstallationDirs($extra);
+
         $default = [
             'version'    => '',
             'no-content' => true,
-            'target-dir' => (is_array($dirs) && $dirs) ? reset($dirs) : 'wordpress',
+            'target-dir' => $dirs ? reset($dirs) : 'wordpress',
         ];
         $config = array_key_exists('wp-downloader', $extra) ? $extra['wp-downloader'] : [];
-        $config = array_merge($default, $config);
-        $this->config = $config;
+        return array_merge($default, $config);
+    }
+
+    protected function wpInstallationDirs(array $extra): array
+    {
+        $dirs = empty($extra['wordpress-install-dir']) ? [] : $extra['wordpress-install-dir'];
+        is_string($dirs) and $dirs = [$dirs];
+        is_array($dirs) and $dirs = array_filter(array_filter($dirs, 'is_string'));
+        return $dirs;
     }
 
     /**
